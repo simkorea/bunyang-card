@@ -94,8 +94,12 @@ module.exports = async (req, res) => {
   });
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  // CDN이 1분 물고 있다가 뒤에서 새로 받아온다. 조회는 빠르고,
-  // 관리자에서 고친 내용은 1분 안에 반영된다.
-  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=60, stale-while-revalidate=300');
+  // CDN이 1분만 물고 있는다.
+  //
+  // stale-while-revalidate 를 일부러 안 붙였다. 붙이면 만료 뒤에도 옛
+  // 내용을 계속 내주면서 뒤에서 갱신하는데, 그러면 공개를 끈 명함이
+  // 몇 분 더 살아 있게 된다. 직원이 그만둬서 내리는 경우를 생각하면
+  // 그 몇 분이 곤란하다. 속도를 조금 잃더라도 1분 안에 확실히 내린다.
+  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=60');
   return res.status(200).end(html);
 };
