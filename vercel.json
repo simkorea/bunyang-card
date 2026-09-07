@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/", "destination": "/simjunhyung", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/:slug([a-z0-9-]+)", "destination": "/api/card?slug=:slug" }
+  ]
+}
