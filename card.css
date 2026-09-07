@@ -241,3 +241,110 @@
   @media (prefers-reduced-motion: reduce){
     *{ transition-duration:.01ms !important; animation-duration:.01ms !important; }
   }
+
+/* ═══════════════════════════════════════════════════════════════
+   현장 블록 — 명함이 "현장 홈페이지 축소판"이 될 때만 나온다
+   ─────────────────────────────────────────────────────────────── */
+
+/* 현장 대표이미지가 머리가 되고, 담당자는 그 아래 띠로 내려간다.
+   현장이 없으면 위쪽 .hero 가 그대로 쓰인다. */
+.site-hero{ position:relative; background:var(--ink); }
+.site-hero img{
+  width:100%; aspect-ratio:16/10; object-fit:cover; display:block;
+}
+.site-hero-txt{
+  position:absolute; left:0; right:0; bottom:0;
+  padding:26px 24px 20px; color:#fff;
+  /* 사진 밝기에 상관없이 글자가 읽히게 아래쪽만 어둡게 깐다 */
+  background:linear-gradient(to top, rgba(12,10,8,.86) 0%, rgba(12,10,8,.55) 45%, transparent 100%);
+}
+.site-hero-txt .hl{
+  margin:0 0 6px; font-size:12px; letter-spacing:.16em; color:var(--gold);
+}
+.site-hero-txt h1{
+  margin:0; font-size:25px; font-weight:700; letter-spacing:-.02em; line-height:1.25;
+}
+.site-hero-txt .sub{
+  margin:8px 0 0; font-size:13.5px; color:rgba(255,255,255,.8); line-height:1.6;
+}
+
+/* 담당자 띠 */
+.agent-bar{
+  display:flex; align-items:center; gap:13px;
+  padding:15px 24px;
+  background:var(--ink); color:#fff;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.agent-bar .ab-photo{
+  width:46px; height:46px; flex:0 0 auto;
+  border-radius:50%; overflow:hidden;
+  border:1.5px solid var(--gold); background:var(--beige2);
+  display:grid; place-items:center;
+}
+.agent-bar .ab-photo img{ width:100%; height:100%; object-fit:cover; }
+.agent-bar .ab-photo .ph-fallback{ font-size:18px; font-weight:600; color:var(--gold-deep); }
+.agent-bar .ab-name{ font-size:16px; font-weight:700; letter-spacing:-.01em; }
+.agent-bar .ab-name span{ font-size:12.5px; font-weight:400; color:var(--gold); margin-left:5px; }
+.agent-bar .ab-org{ font-size:12px; color:rgba(255,255,255,.55); margin-top:3px; }
+
+/* 예약제 안내 같은 짧은 공지 */
+.site-notice{
+  margin:0; padding:13px 24px;
+  background:var(--beige2); color:var(--text);
+  font-size:13px; line-height:1.7; text-align:center;
+  border-bottom:1px solid var(--line);
+}
+
+/* 사업개요 표 */
+table.specs{ width:100%; border-collapse:collapse; }
+table.specs th, table.specs td{
+  padding:10px 0; font-size:13.5px; line-height:1.6;
+  border-bottom:1px solid var(--line); text-align:left; vertical-align:top;
+}
+table.specs th{
+  width:96px; font-weight:600; color:var(--text-dim); white-space:nowrap;
+  padding-right:12px;
+}
+table.specs tr:last-child th, table.specs tr:last-child td{ border-bottom:0; }
+
+.site-addr{ margin:14px 0 0; font-size:13px; line-height:1.7; }
+.site-addr strong{ color:var(--text-dim); font-weight:600; margin-right:6px; }
+.site-addr address{ display:inline; font-style:normal; }
+
+.site-more{
+  font-size:13.5px; font-weight:600; color:var(--gold-deep); text-decoration:none;
+  transition:color .18s ease;
+}
+.site-more:hover{ color:var(--gold); }
+.site-more:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+
+/* 홍보 이미지 — 좌우 여백 없이 화면 끝까지, 세로로 이어 붙인다 */
+section.flush{ padding-left:0; padding-right:0; }
+.site-imgs{ margin-top:14px; }
+.site-imgs .site-img{
+  width:100%; height:auto; display:block;
+  /* 이미지 사이를 붙여 한 장처럼 흐르게 한다. 분양 홍보물은 대개
+     세로로 이어지는 편집물이라 간격을 주면 오히려 끊겨 보인다. */
+}
+
+/* 방문예약 — 날짜·시간을 한 줄에 */
+.field-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.field-row .field{ min-width:0; }
+.field select{
+  width:100%; font:inherit; font-size:15px; color:var(--text);
+  padding:12px 13px;
+  background:var(--paper);
+  border:1px solid var(--line); border-radius:8px;
+  appearance:none;
+  /* 기본 화살표가 사라지므로 직접 그린다 */
+  background-image:linear-gradient(45deg,transparent 50%,var(--text-dim) 50%),
+                   linear-gradient(135deg,var(--text-dim) 50%,transparent 50%);
+  background-position:calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+  background-size:5px 5px, 5px 5px;
+  background-repeat:no-repeat;
+  transition:border-color .18s ease, box-shadow .18s ease;
+}
+.field select:focus{
+  outline:none; border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(200,164,112,0.16);
+}

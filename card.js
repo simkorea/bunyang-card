@@ -118,6 +118,64 @@
     });
   }
 
+  // ── 방문예약 ──────────────────────────────────────────────
+  // 새 형식을 만들지 않는다. 관리자 admin.html 의 parseVisit() 이 이미
+  // 읽는 상동역·부천 형식을 그대로 쓴다:
+  //   [방문 희망일] 2026-09-20 14:00
+  // 이러면 "방문 캘린더" 탭에 코드 한 줄 안 고치고 그대로 뜬다.
+  function submitBooking(e) {
+    e.preventDefault();
+    var btn = $('b-submit');
+    var date = $('b-date').value;
+    var time = $('b-time').value;
+    var name = $('b-name').value.trim();
+    var phone = $('b-phone').value.trim();
+
+    if (!date) { toast('방문 날짜를 골라 주세요.', true); $('b-date').focus(); return; }
+    if (!name) { toast('성함을 입력해 주세요.', true); $('b-name').focus(); return; }
+    if (phone.replace(/\D/g, '').length < 9) {
+      toast('연락처를 정확히 입력해 주세요.', true); $('b-phone').focus(); return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = '예약 중…';
+
+    fetch(SB_URL + '/rest/v1/consultations', {
+      method: 'POST',
+      headers: {
+        'apikey': SB_ANON,
+        'Authorization': 'Bearer ' + SB_ANON,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        name: name,
+        phone: phone,
+        message: '[방문 희망일] ' + date + ' ' + time,
+        source: SOURCE,
+        assignee: DATA.name
+      })
+    }).then(function (res) {
+      if (!res.ok) throw new Error('save failed');
+      e.target.reset();
+      toast(date + ' ' + time + ' 예약을 접수했습니다. 확인 후 연락드립니다.');
+    }).catch(function () {
+      toast('예약 접수에 실패했습니다. 전화로 연락 주세요: ' + PHONE, true);
+    }).then(function () {
+      btn.disabled = false;
+      btn.textContent = '방문 예약하기';
+    });
+  }
+
+  // 지난 날짜를 고를 수 없게 한다. 오늘은 한국시간 기준으로 잡는다 —
+  // UTC로 잡으면 오전 9시 이전에 하루가 밀린다.
+  function setBookingMinDate() {
+    var el = $('b-date');
+    if (!el) return;
+    var kst = new Date(Date.now() + 9 * 3600 * 1000);
+    el.min = kst.toISOString().slice(0, 10);
+  }
+
   // ── 열람 집계 ─────────────────────────────────────────────
   // 현장 사이트의 adguard.js를 쓰지 않는다. 그 스크립트는 접속이
   // 몰리면 document.body를 비우고 차단 화면을 띄우는데, 명함에선
@@ -154,6 +212,9 @@
 
   var form = $('lead-form');
   if (form) form.addEventListener('submit', submitLead);
+
+  var book = $('book-form');
+  if (book) { book.addEventListener('submit', submitBooking); setBookingMinDate(); }
 
   logView();
 })();
