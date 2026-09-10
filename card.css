@@ -256,7 +256,10 @@
   position:absolute; left:0; right:0; bottom:0;
   padding:26px 24px 20px; color:#fff;
   /* 사진 밝기에 상관없이 글자가 읽히게 아래쪽만 어둡게 깐다 */
-  background:linear-gradient(to top, rgba(12,10,8,.86) 0%, rgba(12,10,8,.55) 45%, transparent 100%);
+  background:linear-gradient(to top, rgba(12,10,8,.88) 0%, rgba(12,10,8,.6) 55%, rgba(12,10,8,.18) 100%);
+  /* 하늘이 밝은 조감도·투시도에서 윗줄 문구가 묻혔다. 그라데이션만으로는
+     모자라 글자에 그림자를 깐다. */
+  text-shadow:0 1px 10px rgba(0,0,0,.55);
 }
 .site-hero-txt .hl{
   margin:0 0 6px; font-size:12px; letter-spacing:.16em; color:var(--gold);
