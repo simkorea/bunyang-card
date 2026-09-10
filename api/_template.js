@@ -161,10 +161,10 @@ function renderCard(card, opts) {
     `<img class="site-img" src="${esc(u)}" alt="${esc(site.name)} 홍보 이미지 ${i + 1}"${i === 0 ? '' : ' loading="lazy"'} decoding="async">`
   ).join('');
 
-  // 카카오 링크를 아직 못 받았으면 눌리는 것처럼 두지 않는다.
+  // 카카오 링크가 없으면 꺼진 버튼을 두지 않고 그 자리를 상담 폼으로 돌린다.
   const kko = card.kakao_url
-    ? `<a class="kko" id="d-kko" href="${esc(card.kakao_url)}" target="_blank" rel="noopener">카카오톡 상담</a>`
-    : `<a class="kko" id="d-kko" role="button" aria-disabled="true" style="opacity:.45;cursor:not-allowed;">카카오톡 상담</a>`;
+    ? `<a class="kko" href="${esc(card.kakao_url)}" target="_blank" rel="noopener">카카오톡 상담</a>`
+    : `<a class="ask" href="#contact">상담 문의하기</a>`;
 
   return `<!DOCTYPE html>
 <html lang="ko">

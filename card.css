@@ -351,3 +351,8 @@ section.flush{ padding-left:0; padding-right:0; }
   outline:none; border-color:var(--gold);
   box-shadow:0 0 0 3px rgba(200,164,112,0.16);
 }
+
+/* 카카오 링크가 없을 때 그 자리에 들어가는 상담 문의 버튼 */
+.dock .ask{ background:var(--gold); color:var(--ink); }
+.dock .ask:hover{ background:var(--gold-deep); color:#fff; }
+#contact{ scroll-margin-top:12px; }

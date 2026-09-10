@@ -197,16 +197,6 @@
     }).catch(function () { /* 집계 실패가 명함을 막으면 안 된다 */ });
   }
 
-  // ── 카카오톡 버튼 ─────────────────────────────────────────
-  // 링크를 아직 못 받은 경우. 서버가 aria-disabled를 달아 보낸다.
-  var kko = $('d-kko');
-  if (kko && kko.getAttribute('aria-disabled') === 'true') {
-    kko.addEventListener('click', function (ev) {
-      ev.preventDefault();
-      toast('카카오톡 상담 링크가 아직 연결되지 않았습니다.', true);
-    });
-  }
-
   var save = $('q-save');
   if (save) save.addEventListener('click', saveContact);
 
