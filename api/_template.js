@@ -85,9 +85,13 @@ function renderCard(card, opts) {
     `${card.name} ${role}입니다.`
   ).replace(/\s+/g, ' ').slice(0, 150);
 
+  // 사람마다 다른 합성 배너를 쓰고 싶을 때 card.hero_url로 현장 대표
+  // 이미지를 덮어쓸 수 있다. 비어 있으면 지금처럼 현장 이미지로 폴백.
+  const heroImg = card.hero_url || (site && site.hero_url) || '';
+
   // 사진이 없으면 og:image를 아예 빼는 게 낫다. 없는 파일을 가리키면
   // 카톡 미리보기에 깨진 이미지가 뜨는데, 제목·설명만 나오는 편이 낫다.
-  const ogImage = (site && site.hero_url) || card.photo_url || o.defaultOgImage || '';
+  const ogImage = heroImg || card.photo_url || o.defaultOgImage || '';
 
   // 눌러야 일어나는 일에만 필요한 값. 개인정보를 여기 더 넣지 않는다.
   const clientData = {
@@ -106,9 +110,9 @@ function renderCard(card, opts) {
   // ── 상단 ──
   // 현장 대표이미지가 있으면 그걸 머리로 세우고 담당자는 그 아래 띠로
   // 붙인다. 없으면 예전처럼 담당자 자체가 머리가 된다.
-  const head = site && site.hero_url ? `
+  const head = site && heroImg ? `
   <header class="site-hero">
-    <img src="${esc(site.hero_url)}" alt="${esc(site.name)}" fetchpriority="high">
+    <img src="${esc(heroImg)}" alt="${esc(site.name)}" fetchpriority="high">
     <div class="site-hero-txt">
       ${site.headline ? `<p class="hl">${esc(site.headline)}</p>` : ''}
       <h1>${esc(site.name)}</h1>
