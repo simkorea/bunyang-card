@@ -13,9 +13,14 @@
   }
 
   *,*::before,*::after{ box-sizing:border-box; }
-  html{ -webkit-text-size-adjust:100%; }
+  html{ -webkit-text-size-adjust:100%; overflow-x:hidden; }
+  /* 표(사업개요)에 안 끊어지는 긴 값이 들어가면 표가 화면 폭보다 커져
+     페이지 전체가 옆으로 밀린다. 그러면 안드로이드 일부 브라우저에서
+     하단 고정 버튼바(.dock) 위치 계산까지 같이 틀어진다. 원인이 어떤
+     내용이든(긴 주소, 안 끊기는 숫자열) 옆으로는 절대 못 밀리게 막는다. */
   body{
     margin:0;
+    overflow-x:hidden;
     font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
     color:var(--text);
     background:var(--beige);
@@ -299,10 +304,11 @@
 }
 
 /* 사업개요 표 */
-table.specs{ width:100%; border-collapse:collapse; }
+table.specs{ width:100%; border-collapse:collapse; table-layout:fixed; }
 table.specs th, table.specs td{
   padding:10px 0; font-size:13.5px; line-height:1.6;
   border-bottom:1px solid var(--line); text-align:left; vertical-align:top;
+  overflow-wrap:break-word; word-break:break-word;
 }
 table.specs th{
   width:96px; font-weight:600; color:var(--text-dim); white-space:nowrap;
