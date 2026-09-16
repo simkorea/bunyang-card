@@ -13,6 +13,16 @@
 (function () {
   'use strict';
 
+  // 카카오톡·라인·인스타그램 인앱 브라우저는 자체 하단 툴바를 따로 그리는데
+  // 그 높이가 iOS safe-area-inset-bottom에는 안 잡힌다. 그래서 하단 고정
+  // 버튼바(.dock)의 일부가 그 툴바 밑에 가려 보인다 — 명함은 대부분
+  // 카톡으로 열리므로 이게 흔한 경로다. 경험적으로 확인된 여유값을 더한다.
+  if (/KAKAOTALK|Line\/|FBAN|FBAV|Instagram/i.test(navigator.userAgent || '')) {
+    document.documentElement.style.setProperty(
+      '--safe-b', 'max(env(safe-area-inset-bottom, 0px), 50px)'
+    );
+  }
+
   var DATA = {};
   try {
     DATA = JSON.parse(document.getElementById('card-data').textContent);
